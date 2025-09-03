@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Hostel Manager - Room Booking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-gray-200 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-gray-900 shadow-md p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-indigo-400">Campus Hostel Manager</h1>
+    <a href="/dashboard" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">⬅ Dashboard</a>
+  </header>
+
+  <main class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+    <!-- Booking Form -->
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+      <h2 class="text-lg font-bold mb-4 text-indigo-300">Book a Room</h2>
+      <form action="/roombook" method="POST" class="space-y-4">
+        <input type="text" name="hostel_nm" placeholder="Hostel Name" class="w-full p-3 rounded bg-gray-800 border border-gray-700" required>
+        <input type="number" name="room_no" placeholder="Room No" class="w-full p-3 rounded bg-gray-800 border border-gray-700" required>
+        <input type="text" name="name" placeholder="Your Name" class="w-full p-3 rounded bg-gray-800 border border-gray-700" required>
+        <input type="text" name="branch" placeholder="Branch" class="w-full p-3 rounded bg-gray-800 border border-gray-700" required>
+        <input type="number" name="roll_no" placeholder="Roll No" class="w-full p-3 rounded bg-gray-800 border border-gray-700" required>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg">Book Room</button>
+      </form>
+    </div>
+
+    <!-- Available Rooms -->
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg">
+      <h2 class="text-lg font-bold mb-4 text-indigo-300">Available Rooms</h2>
+      <% if (rooms && rooms.length > 0) { %>
+        <div class="space-y-4">
+          <% rooms.forEach(room => { %>
+            <div class="border border-gray-700 rounded p-4 bg-gray-800">
+              <h3 class="font-bold text-indigo-400">Room <%= room.room_no %> - <%= room.hostel_nm %></h3>
+              <p class="mt-1"><strong>Status:</strong> 
+                <% if (room.occupied) { %>
+                  <span class="text-red-400 font-medium">Full</span>
+                <% } else { %>
+                  <span class="text-emerald-400 font-medium">Available</span>
+                <% } %>
+              </p>
+              <p class="mt-2"><strong>Students:</strong></p>
+              <ul class="list-disc ml-6">
+                <% if (room.stud1) { %><li><%= room.stud1.name %> (<%= room.stud1.roll_no %>)</li><% } %>
+                <% if (room.stud2) { %><li><%= room.stud2.name %> (<%= room.stud2.roll_no %>)</li><% } %>
+                <% if (room.stud3) { %><li><%= room.stud3.name %> (<%= room.stud3.roll_no %>)</li><% } %>
+              </ul>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p>No rooms available yet.</p>
+      <% } %>
+    </div>
+  </main>
+</body>
+</html>
